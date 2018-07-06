@@ -12,10 +12,14 @@ import SwiftyJSON
 class ProfileViewController: UIViewController {
     
     let cellIdentifier = "postCell"
-    var singleUser: User?
+    var singleUser: User? {
+        didSet {
+            DispatchQueue.main.async {
+                self.updateProfileUI()
+            }
+        }
+    }
     
-    // url is set during segue from segue.source
-    var sourceURL: String?
     var posts: [Post]? {
         didSet {
             DispatchQueue.main.async {
@@ -23,6 +27,8 @@ class ProfileViewController: UIViewController {
             }
         }
     }
+    
+    var selectedPost: Post?
     
     @IBOutlet weak var imageViewProfile: UIImageView!
     
@@ -44,91 +50,71 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        self.initializeObjectsFromServer(withURL: self.sourceURL) { (success, modelObjects) in
-            
-            if success {
-                
-                guard let modeledSingleUser = modelObjects!["user"] as? User else { print("no users"); return }
-                print("\(modeledSingleUser.userName)")
-                guard let modeledPosts = modelObjects!["posts"] as? [Post] else { print("no posts"); return }
-                
-                self.singleUser = modeledSingleUser
-                self.posts = modeledPosts
-                
-                
-            }
-        }
+        self.fetchObjectsFromServer()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-  
-    func initializeObjectsFromServer(withURL sourceURL: String?, completion: @escaping (_ success: Bool, _ results: [ String : Any? ]?) -> Void ) {
+    
+    func updateProfileUI() {
         
+        setProfileImage()
         
+        self.labelSubscribers.text = "\(self.singleUser!.numberOfSubscribers)"
+        self.labelSubscriptions.text = "\(self.singleUser!.numberOfSubscriptions)"
+        self.labelPosts.text = "\(self.singleUser!.numberOfPosts)"
+        
+        if let fullName = self.singleUser!.fullName {
+            self.labelFullName.text = fullName
+        }
+        if let citation = self.singleUser!.citation {
+            self.labelCitation.text = citation
+        }
+        
+        if self.singleUser!.isPrivate {
+            self.labelPrivacy.text = "Private account"
+        } else {
+            self.labelPrivacy.text = "Open account"
+        }
+        
+        navigationItem.title = self.singleUser!.userName
+    }
+    
+    func fetchObjectsFromServer() {
+        
+        let sourceURL = NetworkService.sourcelURL
         
         NetworkService.shared.processData(from: sourceURL) { fetchedJSON in
             
-            guard let userJSON = fetchedJSON["graphql"]["user"].dictionary else { print("no userJSON"); return }
-            guard let postsJSON = userJSON["edge_owner_to_timeline_media"]?.dictionary else { print("no postsJSON"); return }
-            
-            let user = self.instantiateUser(fromData: userJSON)
-            let posts = self.instantiatePosts(fromData: postsJSON)
-            
-            let results: [ String : Any? ] = [
-                "user": user,
-                "posts": posts
-            ]
-            
-            completion(true, results)
+            self.singleUser = NetworkService.instantiateUser(fromData: fetchedJSON)
+            self.posts = NetworkService.instantiatePosts(fromData: fetchedJSON)
         }
+        
     }
     
-    func instantiateUser(fromData userJSON: [String : JSON]) -> User? {
+    func setProfileImage() {
         
-        guard let userName = userJSON["username"]?.string else { print("no user name"); return nil }
+        guard let profilePicURL = singleUser?.profilePicURL else { return }
+        guard let url = URL(string: profilePicURL) else { return }
         
-        let fullName = userJSON["full_name"]?.string
-        let citation = userJSON["biography"]?.string
-        
-        guard let isPrivate = userJSON["is_private"]?.bool else { print("no status info"); return nil }
-        guard let numberOfSubscribers = userJSON["edge_followed_by"]?["count"].int else { print("no info about followers"); return nil }
-        guard let numberofSubscriptions = userJSON["edge_follow"]?["count"].int else { print("no info of subscriptions"); return nil }
-        
-        let user =  User(userName: userName, fullName: fullName, citation: citation, isPrivate: isPrivate, numberOfSubscribers: numberOfSubscribers, numberOfSubscriptions: numberofSubscriptions)
-        
-        return user
-    }
-    
-    func instantiatePosts(fromData postsJSON: [String : JSON]) -> [Post]? {
-        
-        var posts = [Post]()
-        
-        guard let edgesJSON = postsJSON["edges"]?.array else { print("no edges json data"); return nil }
-        
-        for edgeJSON in edgesJSON {
-            
-            let postJSON = edgeJSON["node"]
-            
-            let isNotVideo = !postJSON["is_video"].bool!
-            
-            if isNotVideo {
-                guard let imageStringURL = postJSON["display_url"].string else { print("there is no image url"); return nil }
-                guard let numberOfLikes = postJSON["edge_liked_by"]["count"].int else { print("no likes"); return nil }
-                guard let textDescription = postJSON["edge_media_to_caption"]["edges"].array![0]["node"]["text"].string else { return nil }
-                
-                let post = Post()
-                post.imageStringURL = imageStringURL
-                post.numberOfLikes = numberOfLikes
-                post.postTextDescription = textDescription
-                
-                posts.append(post)
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, err) in
+            if err != nil {
+                print(err?.localizedDescription)
             }
+            guard let data = data else { return }
+            DispatchQueue.main.async {
+                self.imageViewProfile.image = UIImage(data: data)
+            }
+        }).resume()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "postSegue" {
+            guard let postVC = segue.destination as? PostViewController else { return }
+            postVC.post = self.selectedPost
         }
-        
-        return posts
     }
 }
 
@@ -151,4 +137,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? PostCollectionViewCell
+        
+        selectedPost = selectedCell?.post
+        
+        performSegue(withIdentifier: "postSegue", sender: self)
+    }
 }
+

@@ -13,16 +13,21 @@ class User: NSObject {
     var fullName: String?
     var citation: String?
     var isPrivate: Bool
+    var profilePicURL: String?
     
+    var numberOfPosts: Int
     var numberOfSubscribers: Int
     var numberOfSubscriptions: Int
     
-    init(userName: String, fullName: String?, citation: String?, isPrivate: Bool, numberOfSubscribers: Int, numberOfSubscriptions: Int) {
+    init(userName: String, fullName: String?, citation: String?, isPrivate: Bool, numberOfSubscribers: Int, numberOfSubscriptions: Int, numberOfPosts: Int, profilePicURL: String?) {
         self.userName = userName
         self.fullName = fullName
         self.citation = citation
         self.isPrivate = isPrivate
         
+        self.profilePicURL = profilePicURL
+        
+        self.numberOfPosts = numberOfPosts
         self.numberOfSubscribers = numberOfSubscribers
         self.numberOfSubscriptions = numberOfSubscriptions
     }

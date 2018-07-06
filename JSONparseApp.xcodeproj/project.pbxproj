@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28150C4520EF284F00176AF0 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28150C4420EF284F00176AF0 /* PostViewController.swift */; };
 		28BCB14B20EB88EF00952669 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BCB14A20EB88EF00952669 /* NetworkService.swift */; };
 		28F8AE9920EB782200CCD78C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F8AE9820EB782200CCD78C /* AppDelegate.swift */; };
 		28F8AE9B20EB782200CCD78C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F8AE9A20EB782200CCD78C /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		28150C4420EF284F00176AF0 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		28BCB14A20EB88EF00952669 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		28F8AE9520EB782200CCD78C /* JSONparseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSONparseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F8AE9820EB782200CCD78C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				28F8AEAE20EB7E9200CCD78C /* Post.swift */,
 				28F8AEB020EB7F9100CCD78C /* User.swift */,
 				28BCB14A20EB88EF00952669 /* NetworkService.swift */,
+				28150C4420EF284F00176AF0 /* PostViewController.swift */,
 			);
 			path = JSONparseApp;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28150C4520EF284F00176AF0 /* PostViewController.swift in Sources */,
 				28F8AEAD20EB7BF000CCD78C /* PostCollectionViewCell.swift in Sources */,
 				28F8AEAB20EB7BDA00CCD78C /* ProfileViewController.swift in Sources */,
 				28F8AEB120EB7F9100CCD78C /* User.swift in Sources */,

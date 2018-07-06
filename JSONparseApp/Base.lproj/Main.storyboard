@@ -50,7 +50,7 @@
                     </view>
                     <connections>
                         <outlet property="textFieldName" destination="yXi-fi-zXg" id="gXK-rN-acS"/>
-                        <segue destination="G53-cZ-0Jy" kind="show" identifier="profileSegue" id="x4F-df-0QX"/>
+                        <segue destination="tFq-NK-SuV" kind="show" identifier="profileSegue" id="p0T-P7-o43"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -108,7 +108,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iSP-lF-FXo">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iSP-lF-FXo">
                                                     <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
                                                 </imageView>
                                             </subviews>
@@ -242,12 +242,68 @@
                         <outlet property="labelPrivacy" destination="EYK-3B-4lX" id="P4k-OC-NDn"/>
                         <outlet property="labelSubscribers" destination="qSi-AF-79j" id="TRg-Q9-TFn"/>
                         <outlet property="labelSubscriptions" destination="Qzt-Kr-dVw" id="Yhp-88-an8"/>
+                        <segue destination="xka-95-OD2" kind="show" identifier="postSegue" id="gij-Ym-Pj2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ceh-9i-b98" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ZxG-X0-cAd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1461.5999999999999" y="132.68365817091455"/>
+        </scene>
+        <!--Post View Controller-->
+        <scene sceneID="Egu-s4-yaV">
+            <objects>
+                <viewController id="xka-95-OD2" customClass="PostViewController" customModule="JSONparseApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jcF-20-iL1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k9f-pe-KuX">
+                                <rect key="frame" x="16" y="64" width="343" height="343"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cyt-jM-buC">
+                                <rect key="frame" x="16" y="450" width="343" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="68" id="3Hz-S1-Pwn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TE-dV-veC">
+                                <rect key="frame" x="16" y="415" width="98" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="Xoo-8E-NA9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="k9f-pe-KuX" firstAttribute="leading" secondItem="5TE-dV-veC" secondAttribute="leading" id="4Xx-xo-bam"/>
+                            <constraint firstItem="cyt-jM-buC" firstAttribute="top" secondItem="5TE-dV-veC" secondAttribute="bottom" constant="8" symbolic="YES" id="9S0-NN-u4H"/>
+                            <constraint firstItem="Wuk-zy-Vvc" firstAttribute="trailing" secondItem="5TE-dV-veC" secondAttribute="trailing" constant="261" id="NPq-oM-m9e"/>
+                            <constraint firstItem="Wuk-zy-Vvc" firstAttribute="bottom" secondItem="cyt-jM-buC" secondAttribute="bottom" constant="149" id="dmr-Fg-iM4"/>
+                            <constraint firstItem="k9f-pe-KuX" firstAttribute="trailing" secondItem="cyt-jM-buC" secondAttribute="trailing" id="fs4-g3-9PI"/>
+                            <constraint firstItem="5TE-dV-veC" firstAttribute="leading" secondItem="cyt-jM-buC" secondAttribute="leading" id="kox-d8-x3d"/>
+                            <constraint firstItem="k9f-pe-KuX" firstAttribute="top" secondItem="Wuk-zy-Vvc" secondAttribute="top" id="ld1-3U-j05"/>
+                            <constraint firstItem="k9f-pe-KuX" firstAttribute="leading" secondItem="jcF-20-iL1" secondAttribute="leadingMargin" id="mZF-Ra-t25"/>
+                            <constraint firstItem="5TE-dV-veC" firstAttribute="top" secondItem="k9f-pe-KuX" secondAttribute="bottom" constant="8" symbolic="YES" id="plU-Uf-xtu"/>
+                            <constraint firstItem="k9f-pe-KuX" firstAttribute="trailing" secondItem="jcF-20-iL1" secondAttribute="trailingMargin" id="t7y-C9-L2D"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Wuk-zy-Vvc"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageViewProfile" destination="k9f-pe-KuX" id="nRT-Wr-j4u"/>
+                        <outlet property="labelDescription" destination="cyt-jM-buC" id="90n-1j-15a"/>
+                        <outlet property="labelLikes" destination="5TE-dV-veC" id="c0L-vg-3Sr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L8h-LM-NNp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2168.8000000000002" y="132.68365817091455"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6f7-YD-Wwu">
@@ -265,10 +321,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWl-2B-Kdd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="742.39999999999998" y="133.13343328335833"/>
+            <point key="canvasLocation" x="711" y="555"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="0Oy-WV-m2Q"/>
-    </inferredMetricsTieBreakers>
 </document>

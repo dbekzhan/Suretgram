@@ -33,10 +33,9 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "profileSegue" {
-            guard let profileViewController = segue.destination as? ProfileViewController else { print("unsuccessfull cast"); return }
-            guard let profileName = textFieldName.text else { return }
             
-            profileViewController.sourceURL = "https://apinsta.herokuapp.com/u/" + profileName
+            guard let profileName = textFieldName.text else { return }
+            NetworkService.sourcelURL = "https://apinsta.herokuapp.com/u/" + profileName
         }
     }
 }
